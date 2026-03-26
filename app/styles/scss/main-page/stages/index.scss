@@ -1,0 +1,101 @@
+@use "../../../base/colors/colors.scss" as *;
+@use "../../../base/mixins/font.scss" as *;
+@use "../../../base/mixins/sizes.scss" as *;
+
+.stages {
+  width: 100%;
+  padding: 5rem 4rem;
+  position: relative;
+  
+  @media (max-width: 1024px) {
+    padding: 3rem 2rem;
+  }
+}
+
+.stages-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stages-content-title {
+  text-align: center;
+  margin-bottom: 4rem;
+  
+  h3 {
+    @include font(500, 2.5rem);
+    color: $text-light;
+    letter-spacing: -0.5px;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+}
+
+.stages-content-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.stages-content-points-item {
+  position: relative;
+  padding: 2rem;
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  cursor: default;
+  background: transparent;
+  
+  &:hover {
+    background: $glass-bg;
+    backdrop-filter: $glass-blur;
+    transform: translateY(-8px);
+    
+    .stages-item-number span {
+      color: $primary;
+      transform: scale(1.05);
+    }
+    
+    .stages-item-line {
+      width: 40px;
+      background: $primary;
+    }
+  }
+}
+
+.stages-item-number {
+  margin-bottom: 1.5rem;
+  
+  span {
+    @include font(600, 2.5rem);
+    color: rgba($primary, 0.7);
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+}
+
+.stages-item-line {
+  width: 30px;
+  height: 2px;
+  background: rgba($primary, 0.3);
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.stages-content-points-item h4 {
+  @include font(500, 1.3rem);
+  color: $text-light;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.stages-content-points-item p {
+  @include font(300, 0.95rem);
+  color: $text-muted;
+  line-height: 1.5;
+}

@@ -1,0 +1,77 @@
+@use "../../../base/colors/colors.scss" as *;
+@use "../../../base/mixins/font.scss" as *;
+@use "../../../base/mixins/sizes.scss" as *;
+
+.advantages {
+  @include size(100vw, 100vh);
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: {
+    left: 4rem;
+    right: 4rem;
+  };
+}
+
+.advantages-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.advantages-content-title h3 {
+  @include font(500, 3rem);
+  color: $text-light;
+}
+
+.advantages-content-points {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  max-width: 900px;
+}
+
+.advantages-content-points-item {
+  display: flex;
+  column-gap: 20px;
+  background-color: #5788c826;
+  padding: 3rem 4rem;
+  align-items: center;
+  border-radius: 10px;
+  & h4 {
+    @include font(600, 2rem);
+    color: $primary;
+  }
+  & span {
+    @include font(500, 2rem);
+    color: $text-light;
+  }
+}
+
+@media (max-width: 1024px) {
+  .advantages {
+    padding: 2rem;
+  }
+  
+  .advantages-content-title h3 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .advantages-content-points-item {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+    
+    h4 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    span {
+      font-size: 1rem;
+    }
+  }
+}

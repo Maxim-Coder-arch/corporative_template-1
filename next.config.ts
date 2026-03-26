@@ -1,7 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ['cdn.example.com'], // если картинки с внешнего CDN
+    // или для всех внешних доменов:
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**', // разрешает все домены (небезопасно, но для dev ок)
+      },
+    ],
+  },
 };
 
 export default nextConfig;

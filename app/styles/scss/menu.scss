@@ -1,0 +1,317 @@
+@use "../base/colors/colors.scss" as *;
+@use "../base/mixins/font.scss" as *;
+@use "../base/mixins/sizes.scss" as *;
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  
+  &--scrolled {
+    backdrop-filter: $glass-blur;
+    border-bottom: 1px solid $glass-border;
+    padding: 0.75rem 4rem;
+  }
+  
+  @media (max-width: 1024px) {
+    padding: 1rem 2rem;
+    
+    &--scrolled {
+      padding: 0.75rem 2rem;
+    }
+  }
+}
+
+.logotype-company {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .company-name {
+    @include font(600, 1.2rem);
+    color: $white;
+    letter-spacing: 1px;
+  }
+}
+
+.menu-desktop {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+  li {
+    a {
+      color: $text-light;
+      text-decoration: none;
+      padding: 0.5rem 0;
+      transition: all 0.3s ease;
+      position: relative;
+      @include font(400, .9rem);
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: $gradient-primary;
+        transition: width 0.3s ease;
+      }
+      
+      &:hover {
+        color: $primary;
+        
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.menu-link-active {
+  color: $primary !important;
+}
+
+.contacts-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    li a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: rgba($white, 0.05);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      @include font(400, 1rem);
+      
+      &:hover {
+        background: $primary;
+      }
+    }
+  }
+  
+  .cta-button {
+    padding: 0.6rem 1.5rem;
+    background: $primary;
+    border-radius: 10px;
+    color: $white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba($primary, 0.3);
+    @include font(400, 1rem);
+    
+    &:hover {
+      box-shadow: 0 0 20px rgba($primary, 0.5);
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  
+  span {
+    width: 100%;
+    height: 2px;
+    background: $white;
+    transition: all 0.3s ease;
+  }
+  
+  &--open {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    span:nth-child(2) {
+      opacity: 0;
+    }
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    display: flex;
+  }
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  z-index: 1001;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%;
+  max-width: 320px;
+  height: 100%;
+  z-index: 1002;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  box-shadow: -5px 0 30px rgba($black, 0.3);
+  background-color: $dark-bg;
+  background-image: url("/advantages/second-bg.jpg");
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  background-position: top;
+  
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba($white, 0.1);
+    margin-bottom: 1.5rem;
+    
+    .mobile-menu-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      
+      .logo {
+        width: 32px;
+        height: 32px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      
+      span {
+        @include font(600, 1rem);
+        color: $white;
+      }
+    }
+    
+    .mobile-menu-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba($white, 0.1);
+      border: none;
+      color: $white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: $primary;
+      }
+    }
+  }
+  
+  &-list {
+    flex: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      margin-bottom: 1rem;
+      
+      a {
+        @include font(400, 1.1rem);
+        color: $text-light;
+        text-decoration: none;
+        display: block;
+        padding: 0.75rem 0;
+        transition: color 0.2s ease;
+        
+        &:hover {
+          color: $primary;
+        }
+      }
+    }
+  }
+  
+  &-footer {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba($white, 0.1);
+    
+    .mobile-social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba($white, 0.05);
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: $primary;
+        }
+      }
+    }
+    
+    .mobile-cta {
+      display: block;
+      text-align: center;
+      padding: 0.75rem;
+      background: $gradient-primary;
+      border-radius: 40px;
+      color: $white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  }
+}

@@ -1,0 +1,328 @@
+@use "../../../base/colors/colors.scss" as *;
+@use "../../../base/mixins/font.scss" as *;
+
+.riviews {
+  min-height: 100vh;
+  width: 100%;
+  background-color: $dark-bg;
+  background-image: url("/advantages/second-bg.jpg");
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  background-position: top;
+  padding: 7rem 4rem 5rem;
+  
+  @media (max-width: 1024px) {
+    padding: 6rem 2rem 3rem;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 5rem 1.5rem 2rem;
+  }
+}
+
+.riviews-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4rem;
+  
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+// Левая колонка — отзывы
+.riviews-list {
+  flex: 2;
+}
+
+.riviews-header {
+  margin-bottom: 3rem;
+}
+
+.riviews-subtitle {
+  @include font(300, 1rem);
+  color: $primary;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.riviews-title {
+  @include font(500, 2.5rem);
+  color: $text-light;
+  position: relative;
+  display: inline-block;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: $gradient-primary;
+  }
+  
+  @media (max-width: 1024px) {
+    font-size: 2rem;
+  }
+}
+
+.riviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.review-card {
+  background: $glass-bg;
+  backdrop-filter: $glass-blur;
+  border: 1px solid $glass-border;
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: $primary;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+  
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba($white, 0.1);
+  }
+  
+  &__body p {
+    @include font(300, 0.9rem);
+    color: $text-muted;
+    line-height: 1.5;
+    font-style: italic;
+  }
+}
+
+.review-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: $gradient-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include font(600, 1.1rem);
+  color: $white;
+  flex-shrink: 0;
+}
+
+.review-info h4 {
+  @include font(500, 1rem);
+  color: $text-light;
+  margin-bottom: 0.2rem;
+}
+
+.review-stars {
+  display: flex;
+  gap: 0.2rem;
+  
+  .star {
+    font-size: 0.9rem;
+    color: rgba($white, 0.2);
+    
+    &--filled {
+      color: $primary;
+    }
+    
+    &--interactive {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+// Правая колонка — форма
+.riviews-form {
+  flex: 1;
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+  
+  @media (max-width: 1024px) {
+    position: static;
+  }
+}
+
+.form-card {
+  background: $glass-bg;
+  backdrop-filter: $glass-blur;
+  border: 1px solid $glass-border;
+  border-radius: 24px;
+  padding: 2rem;
+  
+  h3 {
+    @include font(500, 1.5rem);
+    color: $text-light;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    @include font(300, 0.9rem);
+    color: $text-muted;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-field {
+  input, textarea, select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba($white, 0.05);
+    border: none;
+    border-bottom: 1px solid rgba($white, 0.1);
+    color: $text-light;
+    @include font(300, 0.95rem);
+    transition: all 0.3s ease;
+    
+    &:focus {
+      outline: none;
+      border-bottom-color: $primary;
+      background: rgba($white, 0.08);
+    }
+    
+    &::placeholder {
+      color: rgba($text-muted, 0.5);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  &--rating {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    
+    label {
+      @include font(300, 0.9rem);
+      color: $text-muted;
+    }
+  }
+}
+
+.rating-input {
+  .review-stars {
+    gap: 0.4rem;
+  }
+}
+
+.form-submit {
+  width: 100%;
+  padding: 0.8rem;
+  background: $gradient-primary;
+  border: none;
+  border-radius: 40px;
+  color: $white;
+  @include font(500, 0.95rem);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba($primary, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.form-divider {
+  position: relative;
+  text-align: center;
+  margin: 1.5rem 0;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 2rem);
+    height: 1px;
+    background: rgba($white, 0.1);
+  }
+  
+  &::before { left: 0; }
+  &::after { right: 0; }
+  
+  span {
+    background: transparent;
+    padding: 0 1rem;
+    @include font(300, 0.8rem);
+    color: $text-muted;
+  }
+}
+
+.social-review {
+  text-align: center;
+  margin-bottom: 1rem;
+  
+  p {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba($white, 0.05);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: rgba($primary, 0.2);
+      transform: translateY(-3px);
+    }
+  }
+}
+
+.form-note {
+  @include font(300, 0.7rem);
+  color: rgba($text-muted, 0.5);
+  text-align: center;
+  margin-top: 1rem;
+}
