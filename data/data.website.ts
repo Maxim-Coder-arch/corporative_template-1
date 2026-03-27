@@ -1,16 +1,9 @@
-const heroSectionPoints = [
-  {link: "#", label: "Главная"},
-  {link: "#", label: "Услуги"},
-  {link: "#", label: "О нас"},
-  {link: "#", label: "Наша миссия"},
-  {link: "#", label: "Новости"},
-  {link: "#", label: "Контакты"},
-]
 
+// универсальные данные для меню
 export const menuData = {
-  logotype: "/menu/logotype.jpg",
-  companyName: "аки",
-  points: [
+  logotype: "/menu/logotype.jpg", // логотип компании
+  companyName: "аки", // названиек компании
+  points: [ // пункты меню
     {link: "/", label: "Главная"},
     {link: "/components/pages/about", label: "О нас"},
     {link: "/components/pages/services", label: "Услуги"},
@@ -18,27 +11,28 @@ export const menuData = {
     {link: "/components/pages/riviews", label: "Отзывы"},
     {link: "#footer-contacts", label: "Контакты"},
   ],
-  iconsLink: [
+  iconsLink: [ // соц сети
     {icon: "/menu/vk.png", link: "#"},
     {icon: "/menu/tg.png", link: "#"},
   ],
-  linkTargetAction: {link: "#", label: "Связаться с нами"}
+  linkTargetAction: {link: "#", label: "Связаться с нами"} // быстрая связь
 }
 
+
+// данные для главной страницы
 export const websiteData = {
-  heroSection: {
+  heroSection: { // главная секция
     title: "Агенство креативных индустрий",
     subTitle: "Агентство креативных индустрий создано Правительством Москвы в 2020 году для поддержки и развития творческого бизнеса. Оно является единым окном для взаимодействия органов власти и представителей креативного предпринимательства.",
-    points: heroSectionPoints,
     labelLink: "Заказать проект",
-    aresOfWork: [
+    aresOfWork: [ // что делает компания
       "Финансовые и нефинансовые меры поддержки",
       "Формирование инфраструктуры",
       "Продвижение",
       "Аналитика",
     ]
   },
-  advantages: {
+  advantages: { // почему выбирают нас
     title: "Почему мы?",
     advantagesPoints: [
       "Формирование позитивного образа российской столицы как международного центра креативных индустрий",
@@ -47,7 +41,7 @@ export const websiteData = {
       "Рост доли креативных индустрий в экономике города и развитии городских территорий, создающих комфортную креативную среду для жителей и гостей столицы"
     ]
   },
-  stages: {
+  stages: { // преимущества
     title: "Наши преимущества",
     stagesPoints: [
       {title: "Финансовые и нефинансовые меры поддержки", label: "20 мер поддержки"},
@@ -56,9 +50,13 @@ export const websiteData = {
       {title: "Формирование инфраструктуры", label: "29 объектов инновационной инфраструктуры"},
     ]
   },
-  reviews: {
+  reviews: { // блок с отзывами (на главной странице показываются только 4 отзыва)
     title: "Отзывы",
     subtitle: "Что о нас говорят?",
+    socials: [ // соц сети для странички с отзывами
+      { name: 'Telegram', icon: '/menu/tg.png', link: 'https://t.me/...' },
+      { name: 'VK', icon: '/menu/vk.png', link: 'https://vk.com/...' },
+    ],
     reviewsPoints: [
       {
         userName: "Екатерина С.",
@@ -137,22 +135,22 @@ export const websiteData = {
       }
     ]
   },
-  bid: {
+  bid: { // заявка на услугу
     title: "Оставить заявку",
     subtle: "Оставьте заяку на услугу, чтобы мы могли связаться с вами в ближайшее время.",
-    socials: [
+    socials: [ // или соц сети
       { name: 'Telegram', icon: '/menu/tg.png', link: '#' },
       { name: 'VK', icon: '/menu/vk.png', link: '#' },
     ]
   },
-  footer: {
-    title: "Агенство креативных индустрий",
-    subtitle: "Агентство креативных индустрий создано Правительством Москвы в 2020 году для поддержки и развития творческого бизнеса. Оно является единым окном для взаимодействия органов власти и представителей креативного предпринимательства.",
-    contacts: [
+  footer: { /// футер
+    title: "Агенство креативных индустрий", // название компании
+    subtitle: "Агентство креативных индустрий создано Правительством Москвы в 2020 году для поддержки и развития творческого бизнеса. Оно является единым окном для взаимодействия органов власти и представителей креативного предпринимательства.", // описание компании
+    contacts: [ // контакты
       {icon: "/menu/vk.png", link: "#"},
       {icon: "/menu/tg.png", link: "#"},
     ],
-    menu: {
+    menu: { // меню в футере (копия обычного меню)
       label: "Меню",
       points: [
         ...menuData.points,
@@ -174,6 +172,7 @@ export const websiteData = {
   }
 }
 
+// данные для страничек
 export const pagesData = {
   about: {
     title: "О нас",

@@ -6,7 +6,6 @@ const New = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
   const item = data.news.newPoints.find((item) => item.id === id);
   if (!item) return <div>Not found</div>;
-
   const otherItems = data.news.newPoints.filter((item) => item.id !== id);
   
   return (

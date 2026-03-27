@@ -3,15 +3,12 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from "next/image";
-import Link from "next/link";
 import "../../../styles/scss/pages/riviews/index.scss";
 import { websiteData as data } from "@/data/data.website";
 
 const Riviews = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
-
-  // Состояния формы
   const [formData, setFormData] = useState({
     name: '',
     rating: 5,
@@ -29,7 +26,6 @@ const Riviews = () => {
     setStatus('loading');
     
     try {
-      // TODO: подключить API позже
       await new Promise(resolve => setTimeout(resolve, 1000));
       setStatus('success');
       setFormData({ name: '', rating: 5, text: '' });
@@ -72,17 +68,10 @@ const Riviews = () => {
     visible: { opacity: 1, y: 0 }
   };
 
-  // Соцсети
-  const socials = [
-    { name: 'Telegram', icon: '/menu/tg.png', link: 'https://t.me/...' },
-    { name: 'VK', icon: '/menu/vk.png', link: 'https://vk.com/...' },
-  ];
-
   return (
     <section id="riviews" ref={ref}>
       <div className="riviews">
         <div className="riviews-container">
-          {/* Левая колонка — отзывы */}
           <div className="riviews-list">
             <motion.div 
               className="riviews-header"
@@ -118,14 +107,13 @@ const Riviews = () => {
                     </div>
                   </div>
                   <div className="review-card__body">
-                    <p>"{item.text}"</p>
+                    <p>{item.text}</p>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
           </div>
 
-          {/* Правая колонка — форма */}
           <motion.div 
             className="riviews-form"
             initial={{ opacity: 0, x: 30 }}
@@ -174,8 +162,8 @@ const Riviews = () => {
                   disabled={status === 'loading'}
                 >
                   {status === 'loading' ? 'Отправка...' : 
-                   status === 'success' ? '✓ Отправлено!' : 
-                   status === 'error' ? '✗ Ошибка' : 'Отправить отзыв'}
+                   status === 'success' ? 'Отправлено!' : 
+                   status === 'error' ? 'Ошибка' : 'Отправить отзыв'}
                 </button>
               </form>
 
@@ -186,7 +174,7 @@ const Riviews = () => {
               <div className="social-review">
                 <p>Напишите нам в соцсетях, и мы добавим ваш отзыв на сайт</p>
                 <div className="social-icons">
-                  {socials.map((social, idx) => (
+                  {data.reviews.socials.map((social) => (
                     <a
                       key={social.name}
                       href={social.link}

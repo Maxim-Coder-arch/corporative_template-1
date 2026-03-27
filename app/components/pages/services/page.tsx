@@ -3,7 +3,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from "next/image";
-import Link from "next/link";
 import "../../../styles/scss/pages/services/index.scss";
 import { pagesData as data } from "@/data/data.website";
 
@@ -54,7 +53,6 @@ const Services = () => {
               transition={{ duration: 0.5 }}
               whileHover={{ y: -8 }}
             >
-              {/* Картинка (если есть) */}
               {service.img ? (
                 <div className="service-card__image">
                   <Image 

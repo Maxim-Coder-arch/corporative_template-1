@@ -30,11 +30,10 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="social-icon"
                 whileHover={{ y: -3, scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.2, delay: idx * .1 }}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * .1 }}
               >
                 <Image src={contact.icon} alt="Соцсеть" width={24} height={24} />
               </motion.a>
