@@ -281,3 +281,12 @@
     }
   }
 }
+
+.reviews-loading,
+.reviews-empty {
+  text-align: center;
+  padding: 3rem;
+  color: $text-muted;
+  @include font(300, 1rem);
+  grid-column: 1 / -1;
+}

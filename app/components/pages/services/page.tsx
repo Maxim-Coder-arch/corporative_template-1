@@ -1,82 +1,89 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Image from "next/image";
 import "../../../styles/scss/pages/services/index.scss";
-import { pagesData as data } from "@/data/data.website";
+
+interface Service {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  createdAt: string;
+}
 
 const Services = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 }
-  };
+  useEffect(() => {
+    fetch('/api/services')
+      .then(res => res.json())
+      .then(data => {
+        setServices(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch services:', err);
+        setLoading(false);
+      });
+  }, []);
+  if (loading) {
+    return (
+      <section className="services-page">
+        <div className="services-container">
+          <div className="services-loading">Загрузка услуг...</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section id="services" className="services-page" ref={ref}>
+    <section id="services" className="services-page">
       <div className="services-container">
-        <motion.div 
+        <div 
           className="services-header"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
         >
-          <h1>{data.servicesOrProducts.title}</h1>
-          <p>{data.servicesOrProducts.subtitle}</p>
-        </motion.div>
+          <h1>Наши услуги</h1>
+          <p>Поможем вашему бизнесу расти</p>
+        </div>
 
-        <motion.div 
+        <div 
           className="services-grid"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
         >
-          {data.servicesOrProducts.servicePoints.map((service, index) => (
-            <motion.div 
-              key={index}
-              className="service-card"
-              variants={itemVariants}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -8 }}
-            >
-              {service.img ? (
-                <div className="service-card__image">
-                  <Image 
-                    src={service.img} 
-                    alt={service.title}
-                    width={400}
-                    height={250}
-                    style={{ objectFit: 'cover' }}
-                  />
-                  <div className="service-card__overlay" />
-                </div>
-              ) : (
-                <div className="service-card__placeholder">
-                  <span className="service-card__placeholder-icon">✨</span>
-                </div>
-              )}
+          {services.length === 0 ? (
+            <div className="services-empty">Услуги скоро появятся</div>
+          ) : (
+            services.map((service) => (
+              <div 
+                key={service._id}
+                className="service-card"
+              >
+                {service.image ? (
+                  <div className="service-card__image">
+                    <Image 
+                      src={service.image} 
+                      alt={service.title}
+                      className="service-card__img"
+                      width={400}
+                      height={250}
+                    />
+                    <div className="service-card__overlay" />
+                  </div>
+                ) : (
+                  <div className="service-card__placeholder">
+                    <span className="service-card__placeholder-icon">✨</span>
+                  </div>
+                )}
 
-              <div className="service-card__content">
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
+                <div className="service-card__content">
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))
+          )}
+        </div>
       </div>
     </section>
   );

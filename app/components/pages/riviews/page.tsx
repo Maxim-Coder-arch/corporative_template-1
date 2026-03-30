@@ -1,20 +1,34 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from "next/image";
 import "../../../styles/scss/pages/riviews/index.scss";
 import { websiteData as data } from "@/data/data.website";
 
+interface IReview {
+  name: string;
+  rating: number;
+  text: string;
+}
+
 const Riviews = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const [reviews, setReviews] = useState<IReview[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     rating: 5,
     text: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  useEffect(() => {
+    fetch('/api/reviews')
+      .then(res => res.json())
+      .then(setReviews)
+      .catch(console.error);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -26,9 +40,18 @@ const Riviews = () => {
     setStatus('loading');
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setStatus('success');
-      setFormData({ name: '', rating: 5, text: '' });
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', rating: 5, text: '' });
+      } else {
+        setStatus('error');
+      }
       setTimeout(() => setStatus('idle'), 3000);
     } catch {
       setStatus('error');
@@ -89,7 +112,7 @@ const Riviews = () => {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              {data.reviews.reviewsPoints.map((item, index) => (
+              {reviews.map((item, index) => (
                 <motion.div 
                   className="review-card" 
                   key={index}
@@ -99,10 +122,10 @@ const Riviews = () => {
                 >
                   <div className="review-card__header">
                     <div className="review-avatar">
-                      {item.userName.charAt(0).toUpperCase()}
+                      {item.name.charAt(0).toUpperCase()}
                     </div>
                     <div className="review-info">
-                      <h4>{item.userName}</h4>
+                      <h4>{item.name}</h4>
                       {renderStars(item.rating)}
                     </div>
                   </div>

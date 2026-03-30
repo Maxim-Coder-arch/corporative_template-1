@@ -1,69 +1,98 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import "../../../styles/scss/main-page/reviews/index.scss";
 import { websiteData as data } from "@/data/data.website";
 
+interface Review {
+  _id: string;
+  name: string;
+  rating: number;
+  text: string;
+  status: string;
+  createdAt: string;
+}
+
 const Reviews = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch('/api/reviews')
+      .then(res => res.json())
+      .then(data => {
+        setReviews(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load reviews:', err);
+        setLoading(false);
+      });
+  }, []);
 
-  const displayedReviews = data.reviews.reviewsPoints.slice(0, 4);
+  const displayedReviews = reviews.slice(0, 4);
 
-  const totalReviews = data.reviews.reviewsPoints.length;
-  const averageRating = (
-    data.reviews.reviewsPoints.reduce((sum, r) => sum + r.rating, 0) / totalReviews
-  ).toFixed(1);
+  const totalReviews = reviews.length;
+  const averageRating = totalReviews > 0
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
+    : '0';
   const ratingPercent = (parseFloat(averageRating) / 5) * 100;
 
+  if (loading) {
+    return (
+      <section className="reviews-section">
+        <div className="reviews-container">
+          <div className="reviews-content">
+            <div className="reviews-header">
+              <h2>{data.reviews.title}</h2>
+            </div>
+            <div className="reviews-loading">Загрузка отзывов...</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section id="reviews" ref={sectionRef} className="reviews-section">
+    <section id="reviews" className="reviews-section">
       <div className="reviews-container">
         <div className="reviews-content">
-          <motion.div 
+          <div 
             className="reviews-header"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
           >
             <h2>{data.reviews.title}</h2>
-          </motion.div>
+          </div>
 
           <div className="reviews-grid">
-            {displayedReviews.map((review, index) => (
-              <motion.div 
-                key={index} 
-                className={`review-card ${index % 2 === 1 ? 'review-card--offset' : ''}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -3 }}
-              >
-                <div className="review-card__rating">
-                  {[...Array(5)].map((_, i) => (
-                    <span 
-                      key={i} 
-                      className={`star ${i < review.rating ? 'star--filled' : ''}`}
-                    >
-                      ★
-                    </span>
-                  ))}
+            {displayedReviews.length > 0 ? (
+              displayedReviews.map((review, index) => (
+                <div 
+                  key={review._id} 
+                  className={`review-card ${index % 2 === 1 ? 'review-card--offset' : ''}`}
+                >
+                  <div className="review-card__rating">
+                    {[...Array(5)].map((_, i) => (
+                      <span 
+                        key={i} 
+                        className={`star ${i < review.rating ? 'star--filled' : ''}`}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <p className="review-card__text">{review.text}</p>
+                  <div className="review-card__author">
+                    <span className="review-card__name">{review.name}</span>
+                  </div>
                 </div>
-                <p className="review-card__text">{review.text}</p>
-                <div className="review-card__author">
-                  <span className="review-card__name">{review.userName}</span>
-                </div>
-              </motion.div>
-            ))}
+              ))
+            ) : (
+              <div className="reviews-empty">Пока нет отзывов</div>
+            )}
           </div>
         </div>
 
-        <motion.div 
+        <div 
           className="reviews-meta"
-          initial={{ opacity: 0, x: 20 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
         >
           <div className="reviews-meta__content">
             <div className="reviews-meta__total">
@@ -93,7 +122,7 @@ const Reviews = () => {
               Все отзывы
             </a>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

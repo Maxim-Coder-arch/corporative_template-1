@@ -27,10 +27,18 @@ const Bid = () => {
     setStatus('loading');
     
     try {
-      // TODO: подключить API позже
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setStatus('success');
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        setStatus('error');
+      }
       setTimeout(() => setStatus('idle'), 3000);
     } catch {
       setStatus('error');
@@ -38,11 +46,9 @@ const Bid = () => {
     }
   };
 
-
   return (
     <section id="bid" className="bid-section">
       <div className="bid-container">
-        {/* Левая секция */}
         <motion.div 
           className="bid-info"
           initial={{ opacity: 0, x: -30 }}
@@ -68,11 +74,10 @@ const Bid = () => {
                   rel="noopener noreferrer"
                   className="social-icon"
                   whileHover={{ y: -3, scale: 1.05 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.2, delay: 0.2 + idx * 0.1 }}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.2 + idx * 0.1 }}
                 >
                   <Image src={social.icon} alt={social.name} width={24} height={24} />
                 </motion.a>
@@ -81,7 +86,6 @@ const Bid = () => {
           </div>
         </motion.div>
 
-        {/* Правая секция — форма */}
         <motion.div 
           className="bid-form"
           initial={{ opacity: 0, x: 30 }}
@@ -94,7 +98,7 @@ const Bid = () => {
               <input
                 type="text"
                 name="name"
-                placeholder="Ваше имя"
+                placeholder="Ваше имя *"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -106,7 +110,7 @@ const Bid = () => {
               <input
                 type="email"
                 name="email"
-                placeholder="Email"
+                placeholder="Email *"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -118,7 +122,7 @@ const Bid = () => {
               <input
                 type="tel"
                 name="phone"
-                placeholder="Телефон"
+                placeholder="Телефон *"
                 value={formData.phone}
                 onChange={handleChange}
                 required

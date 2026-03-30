@@ -3,6 +3,7 @@ import "./styles/base/reset/reset.scss";
 import Menu from "./components/menu";
 import Footer from "./components/footer";
 import { metaDataWebsite } from "@/data/metadata";
+import { Tracker } from "./components/tracker/Tracker";
 
 export const metadata: Metadata = metaDataWebsite;
 
@@ -17,6 +18,7 @@ export default function RootLayout({
         <Menu />
         {children}
         <Footer />
+        <Tracker />
       </body>
     </html>
   );
